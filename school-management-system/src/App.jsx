@@ -4,13 +4,14 @@ import viteLogo from '/vite.svg'
 import './index.css'
 import TeacherPage from './Page/TeacherPage'
 import ClassPage from './Page/ClassPage'
+import Navbar from './components/Navbar/NavBar'
 
 
 function App() {
   return (
     <div>
-      <ClassPage/>
-      {/* <TeacherPage/>  */}
+      <Navbar/>
+      <TeacherPage/> 
     </div>
   )
 }

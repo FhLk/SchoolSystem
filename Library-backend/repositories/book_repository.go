@@ -7,8 +7,11 @@ import (
 )
 
 type BookRepository interface {
-	CreateUser(ctx context.Context, user *models.Book) error
-	GetUserByID(ctx context.Context, id uint) (*models.Book, error)
+	CreateBook(ctx context.Context, book *models.Book) error
+	GetBookByID(ctx context.Context, id string) (*models.Book, error)
+	GetAllBook(ctx context.Context) ([]*models.Book, error)
+	DeleteBook(ctx context.Context, id string) error
+	UpdateBook(ctx context.Context, book *models.Book) error
 }
 
 type bookRepository struct {
@@ -19,14 +22,34 @@ func NewBookRepository(db *gorm.DB) BookRepository {
 	return &bookRepository{db: db}
 }
 
-func (r *bookRepository) CreateUser(ctx context.Context, user *models.Book) error {
+func (r *bookRepository) CreateBook(ctx context.Context, user *models.Book) error {
 	return r.db.Create(user).Error
 }
 
-func (r *bookRepository) GetUserByID(ctx context.Context, id uint) (*models.Book, error) {
-	var user models.Book
-	if err := r.db.First(&user, id).Error; err != nil {
+func (r *bookRepository) GetBookByID(ctx context.Context, id string) (*models.Book, error) {
+	var book models.Book
+	if err := r.db.First(&book, id).Error; err != nil {
 		return nil, err
 	}
-	return &user, nil
+	return &book, nil
+}
+
+func (r *bookRepository) GetAllBook(ctx context.Context) ([]*models.Book, error) {
+	var books []*models.Book
+	if err := r.db.Find(&books).Error; err != nil {
+		return nil, err
+	}
+	return books, nil
+}
+
+func (r *bookRepository) DeleteBook(ctx context.Context, id string) error {
+	var book models.Book
+	if err := r.db.Delete(&book, id).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *bookRepository) UpdateBook(ctx context.Context, book *models.Book) error {
+	return r.db.Save(book).Error
 }

@@ -1,11 +1,12 @@
 package models
 
 type Book struct {
-	Book_ID        string
-	Book_Image     string
-	Book_Title     string
-	Book_Author    string
-	Book_Publisher string
-	Book_Year      int
-	Book_Status    int
+	BookId        string `gorm:"column:Id;primary_key" json:"id"`
+	BookImg       string `gorm:"column:Img" json:"img"`
+	BookTitle     string `gorm:"column:Title" json:"title"`
+	BookCategory  string `gorm:"column:Category" json:"category"`
+	BookAuthor    string `gorm:"column:Author" json:"author"`
+	BookPublisher string `gorm:"column:Publisher" json:"publisher"`
+	BookYear      string `gorm:"column:Year" json:"year"`
+	BookStatus    string `gorm:"column:Status" json:"status"`
 }

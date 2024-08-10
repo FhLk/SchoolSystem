@@ -6,18 +6,13 @@ import (
 	"Library-backend/repositories"
 	"Library-backend/services"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 	"log"
 )
 
 func main() {
-	// เชื่อมต่อฐานข้อมูล )
-	DB, err := db.ConnectDB()
-	if err != nil {
-		log.Fatal(err)
-	}
-	bookRepository := repositories.NewBookRepository(DB)
-	bookService := services.NewBookService(bookRepository)
-	bookController := controller.NewBookController(bookService)
+
+	bookController := initSetupBook()
 
 	router := gin.Default()
 	router.GET("/books/:id", bookController.GetBookByID)
@@ -28,4 +23,27 @@ func main() {
 	router.DELETE("/books/:id", bookController.DeleteBook)
 
 	router.Run("localhost:8080")
+}
+
+func Conn() *gorm.DB {
+	DB, err := db.ConnectDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return DB
+}
+
+func initSetupBook() *controller.BookController {
+	// เชื่อมต่อฐานข้อมูล )
+	DB := Conn()
+	bookRepository := repositories.NewBookRepository(DB)
+	bookService := services.NewBookService(bookRepository)
+	return controller.NewBookController(bookService)
+}
+
+func initSetupLibrarian() {
+	//DB := Conn()
+	//bookRepository := repositories.NewBookRepository(DB)
+	//bookService := services.NewBookService(bookRepository)
+	//return controller.NewBookController(bookService)
 }

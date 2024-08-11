@@ -9,7 +9,7 @@ import (
 type BookRepository interface {
 	CreateBook(ctx context.Context, book *models.Book) error
 	GetBookByID(ctx context.Context, id string) (*models.Book, error)
-	GetAllBook(ctx context.Context) ([]*models.Book, error)
+	GetAllBooks(ctx context.Context) ([]*models.Book, error)
 	DeleteBook(ctx context.Context, id string) error
 	UpdateBook(ctx context.Context, book *models.Book) error
 }
@@ -34,7 +34,7 @@ func (r *bookRepository) GetBookByID(ctx context.Context, id string) (*models.Bo
 	return &book, nil
 }
 
-func (r *bookRepository) GetAllBook(ctx context.Context) ([]*models.Book, error) {
+func (r *bookRepository) GetAllBooks(ctx context.Context) ([]*models.Book, error) {
 	var books []*models.Book
 	if err := r.db.Find(&books).Error; err != nil {
 		return nil, err

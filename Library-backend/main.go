@@ -47,3 +47,17 @@ func initSetupLibrarian() {
 	//bookService := services.NewBookService(bookRepository)
 	//return controller.NewBookController(bookService)
 }
+
+func initSetupAccount() {
+	//DB := Conn()
+	//bookRepository := repositories.NewBookRepository(DB)
+	//bookService := services.NewBookService(bookRepository)
+	//return controller.NewBookController(bookService)
+}
+
+func initSetupMember() {
+	//DB := Conn()
+	//bookRepository := repositories.NewBookRepository(DB)
+	//bookService := services.NewBookService(bookRepository)
+	//return controller.NewBookController(bookService)
+}

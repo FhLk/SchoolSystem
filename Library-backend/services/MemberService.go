@@ -30,6 +30,10 @@ func (s *MemberServiceImpl) GetAllMembers(ctx context.Context) ([]*models.Member
 	return s.memberRepository.GetAllMember(ctx)
 }
 
+func (s *MemberServiceImpl) GetMemberByID(ctx context.Context, id string) (*models.Member, error) {
+	return s.memberRepository.GetMemberByID(ctx, id)
+}
+
 func (s *MemberServiceImpl) DeleteMember(ctx context.Context, id string) error {
 	return s.memberRepository.DeleteMember(ctx, id)
 }

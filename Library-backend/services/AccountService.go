@@ -18,8 +18,8 @@ type AccountServiceImpl struct {
 	accountService repositories.AccountRepository
 }
 
-func NewAccountService(accountRepository repositories.AccountRepository) AccountServiceImpl {
-	return AccountServiceImpl{accountService: accountRepository}
+func NewAccountService(accountRepository repositories.AccountRepository) *AccountServiceImpl {
+	return &AccountServiceImpl{accountService: accountRepository}
 }
 
 func (s *AccountServiceImpl) CreateAccount(ctx context.Context, account *models.Account) error {
@@ -31,7 +31,7 @@ func (s *AccountServiceImpl) GetAccountByID(ctx context.Context, id string) (*mo
 }
 
 func (s *AccountServiceImpl) GetAllAccounts(ctx context.Context) ([]*models.Account, error) {
-	return s.GetAllAccounts(ctx)
+	return s.accountService.GetAllAccount(ctx)
 }
 
 func (s *AccountServiceImpl) DeleteAccount(ctx context.Context, id string) error {

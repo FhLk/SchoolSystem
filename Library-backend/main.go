@@ -11,16 +11,51 @@ import (
 )
 
 func main() {
-
-	bookController := initSetupBook()
-
 	router := gin.Default()
-	router.GET("/books/:id", bookController.GetBookByID)
-	router.GET("/books/", bookController.GetAllBooks)
-	router.POST("/books/", bookController.CreateBook)
-	router.PATCH("/books/:id", bookController.UpdateBook)
-	router.PUT("/books/:id", bookController.UpdateBook)
-	router.DELETE("/books/:id", bookController.DeleteBook)
+
+	bookRoute := router.Group("/book")
+	{
+		bookController := initSetupBook()
+		bookRoute.GET("/:id", bookController.GetBookByID)
+		bookRoute.GET("/", bookController.GetAllBooks)
+		bookRoute.POST("/", bookController.CreateBook)
+		bookRoute.PATCH("/:id", bookController.UpdateBook)
+		bookRoute.PUT("/:id", bookController.UpdateBook)
+		bookRoute.DELETE("/:id", bookController.DeleteBook)
+	}
+
+	librarianRoute := router.Group("/librarian")
+	{
+		librarianController := initSetupLibrarian()
+		librarianRoute.POST("/", librarianController.CreateLibrarian)
+		librarianRoute.GET("/", librarianController.GetAllLibrarians)
+		librarianRoute.GET("/:id", librarianController.GetLibrarianByID)
+		librarianRoute.PUT("/:id", librarianController.UpdateLibrarian)
+		librarianRoute.PATCH("/:id", librarianController.UpdateLibrarian)
+		librarianRoute.DELETE("/:id", librarianController.DeleteLibrarian)
+	}
+
+	accountRoute := router.Group("/account")
+	{
+		accountController := initSetupAccount()
+		accountRoute.POST("/", accountController.CreateAccount)
+		accountRoute.GET("/", accountController.GetAllAccount)
+		accountRoute.GET("/:id", accountController.GetAccountByID)
+		accountRoute.PUT("/:id", accountController.UpdateAccount)
+		accountRoute.PATCH("/:id", accountController.UpdateAccount)
+		accountRoute.DELETE("/:id", accountController.DeleteAccount)
+	}
+
+	memberRoute := router.Group("/member")
+	{
+		memberController := initSetupMember()
+		memberRoute.POST("/", memberController.CreateMember)
+		memberRoute.GET("/", memberController.GetAllMember)
+		memberRoute.GET("/:id", memberController.GetMemberByID)
+		memberRoute.PUT("/:id", memberController.UpdateMember)
+		memberRoute.PATCH("/:id", memberController.UpdateMember)
+		memberRoute.DELETE("/:id", memberController.DeleteMember)
+	}
 
 	router.Run("localhost:8080")
 }
@@ -41,23 +76,23 @@ func initSetupBook() *controller.BookController {
 	return controller.NewBookController(bookService)
 }
 
-func initSetupLibrarian() {
-	//DB := Conn()
-	//bookRepository := repositories.NewBookRepository(DB)
-	//bookService := services.NewBookService(bookRepository)
-	//return controller.NewBookController(bookService)
+func initSetupLibrarian() *controller.LibrarianController {
+	DB := Conn()
+	librarianRepository := repositories.NewLibrarianRepository(DB)
+	librarianService := services.NewLibrarianService(librarianRepository)
+	return controller.NewLibrarianController(librarianService)
 }
 
-func initSetupAccount() {
-	//DB := Conn()
-	//bookRepository := repositories.NewBookRepository(DB)
-	//bookService := services.NewBookService(bookRepository)
-	//return controller.NewBookController(bookService)
+func initSetupAccount() *controller.AccountController {
+	DB := Conn()
+	accountRepository := repositories.NewAccountRepository(DB)
+	accountService := services.NewAccountService(accountRepository)
+	return controller.NewAccountController(accountService)
 }
 
-func initSetupMember() {
-	//DB := Conn()
-	//bookRepository := repositories.NewBookRepository(DB)
-	//bookService := services.NewBookService(bookRepository)
-	//return controller.NewBookController(bookService)
+func initSetupMember() *controller.MemberController {
+	DB := Conn()
+	memberRepository := repositories.NewMemberRepository(DB)
+	memberService := services.NewMemberService(memberRepository)
+	return controller.NewMemberController(memberService)
 }

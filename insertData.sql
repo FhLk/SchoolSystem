@@ -22,14 +22,34 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Library`.`Librarians` (
   `Id` VARCHAR(225) NOT NULL,
   `First_name` VARCHAR(45) NOT NULL,
+  `Middle_name` VARCHAR(45) NULL,
   `Last_name` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(255) NOT NULL,
   `Role` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`Id`))
+  `Account_Id` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`Id`),
+  INDEX `fk_Librarians_Accounts2_idx` (`Account_Id` ASC) VISIBLE,
+  CONSTRAINT `fk_Librarians_Accounts2`
+    FOREIGN KEY (`Account_Id`)
+    REFERENCES `Library`.`Accounts` (`Account_Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Library`.`Accounts` (
+  `Account_Id` VARCHAR(255) NOT NULL,
+  `Username` VARCHAR(255) NOT NULL,
+  `Password` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`Account_Id`))
+ENGINE = InnoDB;
+
+
+
 
 drop table books;
 drop table members;
 drop table librarians;
+drop table accounts;
 
 INSERT INTO books (Id,Img, Category,Title, Author, Publisher, Year, Status)
 VALUES

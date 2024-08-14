@@ -3,6 +3,7 @@ package main
 import (
 	"Library-backend/controller"
 	"Library-backend/db"
+	"Library-backend/middleware"
 	"Library-backend/repositories"
 	"Library-backend/services"
 	"github.com/gin-gonic/gin"
@@ -12,12 +13,12 @@ import (
 
 func main() {
 	router := gin.Default()
-
+	//router.Use(middleware.CORSMiddleware())
 	bookRoute := router.Group("/book")
 	{
 		bookController := initSetupBook()
 		bookRoute.GET("/:id", bookController.GetBookByID)
-		bookRoute.GET("/", bookController.GetAllBooks)
+		bookRoute.GET("/", bookController.GetAllBooks).Use(middleware.CORSMiddleware())
 		bookRoute.POST("/", bookController.CreateBook)
 		bookRoute.PATCH("/:id", bookController.UpdateBook)
 		bookRoute.PUT("/:id", bookController.UpdateBook)
@@ -56,7 +57,6 @@ func main() {
 		memberRoute.PATCH("/:id", memberController.UpdateMember)
 		memberRoute.DELETE("/:id", memberController.DeleteMember)
 	}
-
 	router.Run("localhost:8080")
 }
 

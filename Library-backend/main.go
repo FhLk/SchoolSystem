@@ -12,20 +12,23 @@ import (
 )
 
 func main() {
+	bookController := initSetupBook()
 	router := gin.Default()
-	//router.Use(middleware.CORSMiddleware())
-	bookRoute := router.Group("/book")
+	router.Use(middleware.CORSMiddleware())
+
+	router.GET("/api/book", bookController.GetAllBooks)
+	bookRoute := router.Group("/api/book")
 	{
 		bookController := initSetupBook()
 		bookRoute.GET("/:id", bookController.GetBookByID)
-		bookRoute.GET("/", bookController.GetAllBooks).Use(middleware.CORSMiddleware())
+		bookRoute.GET("/", bookController.GetAllBooks)
 		bookRoute.POST("/", bookController.CreateBook)
 		bookRoute.PATCH("/:id", bookController.UpdateBook)
 		bookRoute.PUT("/:id", bookController.UpdateBook)
 		bookRoute.DELETE("/:id", bookController.DeleteBook)
 	}
 
-	librarianRoute := router.Group("/librarian")
+	librarianRoute := router.Group("/api/librarian")
 	{
 		librarianController := initSetupLibrarian()
 		librarianRoute.POST("/", librarianController.CreateLibrarian)
@@ -36,7 +39,7 @@ func main() {
 		librarianRoute.DELETE("/:id", librarianController.DeleteLibrarian)
 	}
 
-	accountRoute := router.Group("/account")
+	accountRoute := router.Group("/api/account")
 	{
 		accountController := initSetupAccount()
 		accountRoute.POST("/", accountController.CreateAccount)
@@ -47,7 +50,7 @@ func main() {
 		accountRoute.DELETE("/:id", accountController.DeleteAccount)
 	}
 
-	memberRoute := router.Group("/member")
+	memberRoute := router.Group("/api/member")
 	{
 		memberController := initSetupMember()
 		memberRoute.POST("/", memberController.CreateMember)

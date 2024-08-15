@@ -4,12 +4,7 @@ const URL_BASE = process.env.APP_BASE_URL
 
 export const getAllBooks = async () => {
     try {
-        const response = await fetch("http://localhost:8080/book",{
-            method :"GET",
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
+        const response = await fetch("http://localhost:8080/api/book");
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }

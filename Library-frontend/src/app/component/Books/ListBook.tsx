@@ -1,9 +1,9 @@
 "use client"
 
 import React, { FC, useEffect, useState } from 'react'
-import { getAllBooks } from './BookAPI'
+import { getAllBooks, getBookByID } from './BookAPI'
 
-interface bookData {
+export interface bookData {
   id : string
   img : string
   title : string
@@ -19,6 +19,7 @@ const ListBook : FC = ()=> {
 
   useEffect(()=>{
     const fetchBooks = async () => {
+      // const books = await getBookByID("00");
       const books = await getAllBooks();
       setBooks(books);
    }

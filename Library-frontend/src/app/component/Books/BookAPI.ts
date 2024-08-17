@@ -1,14 +1,19 @@
-import { bookData } from "./ListBook";
-
-
 const URL_BASE = process.env.APP_BASE_URL
+
+export interface bookData {
+    id : string
+    img : string
+    title : string
+    category : string
+    author : string
+    publisher : string
+    year : Number
+    status : Number
+  }
 
 export const getAllBooks = async () => {
     try {
         const response = await fetch("http://localhost:8080/api/book");
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
         const jsonData = await response.json();
         return jsonData
     }
@@ -20,9 +25,6 @@ export const getAllBooks = async () => {
 export const getBookByID = async (id : string) =>{
     try {
         const response = await fetch(`http://localhost:8080/api/book/${id}`);
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
         const jsonData = await response.json();
         return jsonData
     }
@@ -40,9 +42,6 @@ export const createNewBook = async (newBook : bookData) =>{
             },
             body: JSON.stringify(newBook)
         });
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
         const jsonData = await response.json();
         return jsonData
     }
@@ -60,9 +59,6 @@ export const updateBookAllData = async (newBook : bookData) => {
             },
             body: JSON.stringify(newBook)
         });
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
         const jsonData = await response.json();
         return jsonData
     }
@@ -80,9 +76,6 @@ export const updateBookSomeData = async (data : string, id :string) => {
             },
             body: JSON.stringify(data)
         });
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
         const jsonData = await response.json();
         return jsonData
     }
@@ -99,9 +92,6 @@ export const deleteBook = async (id : string) =>{
                 "Content-Type": "application/json",
             },
         });
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
         const jsonData = await response.json();
         return jsonData
     }

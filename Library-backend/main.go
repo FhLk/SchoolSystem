@@ -12,11 +12,9 @@ import (
 )
 
 func main() {
-	bookController := initSetupBook()
 	router := gin.Default()
 	router.Use(middleware.CORSMiddleware())
 
-	router.GET("/api/book", bookController.GetAllBooks)
 	bookRoute := router.Group("/api/book")
 	{
 		bookController := initSetupBook()
